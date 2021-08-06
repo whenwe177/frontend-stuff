@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="./styles.css">
+    <title>F1 Roundup</title>
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-div">
+            <h2 class="navbar-title">F1 2021</h2>
+        </div>
+        
+        <div class="navbar-div">
+            <ul class="navbar-list">
+                <li><a href="#" class="navbar-link">Home</a></li>
+                <li><a href="#drivers" class="navbar-link">Driver's Standings</a></li>
+                <li><a href="#constructors" class="navbar-link">Constructor's Standings</a></li>
+                <li><a href="#results" class="navbar-link">Recent Results</a></li>
+            </ul>
+        </div>
+
+        <div class="navbar-toggle">
+            <i class="fas fa-angle-left"></i>
+        </div>
+            
+    </nav>
+
+    <header class="web-header">
+        <h1 class="section-title">Driven by Speed.</h1>
+        <p class="section-text">The all around hub for updates of the current season's drivers' and constructors' standings.</p>
+    </header>
+
+    <section id="drivers">
+        <div class="main-section bg-light">
+            <h1 class="section-title section-header fg-dark align-center">Driver's Standings</h1>
+            <div id="driver-standings" class="standing-bar" >
+                                            
+            </div>
+        </div>
+    </section>
+
+    <section id="constructors">
+        <div class="main-section bg-dark">
+            <h1 class="section-title section-header align-center">Constructor's Standings</h1>
+            <div class="standing-bar" id="constructor-standings">
+            
+
+            </div>
+        </div>
+    </section>
+
+    <section id="results">
+        <div class="main-section bg-light">
+            <h1 class="section-title section-header fg-dark">Race Results</h1>
+            
+            <div class="season-carousel">
+
+                <div class="carousel-container">
+                    <ul class="carousel-track">
+                    </ul>
+                </div>
+
+                <div class="carousel-button-container">
+                    <button class="carousel-button" id="carousel-button-left">
+                        <i class="fas fa-angle-left"></i>
+                    </button>
+                    <button class="carousel-button" id="carousel-button-right">
+                        <i class="fas fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="race-info">
+            </div>
+
+            <div class="race-result">
+                <h2 class="race-text fg-dark align-left">Classifications:</h2>
+                <div class="result-bar bg-none">
+                    <h6 class="point-bar-title align-center">Position</h6>
+                    <p class="point-bar-text align-center">Driver</p>
+                    <p class="point-bar-text align-center">Constructor</p>
+                    <p class="point-bar-text align-center">Time/Retired</p>
+                    <p class="point-bar-text align-center">Points</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="./app.js"></script>
+</body>
+</html>
