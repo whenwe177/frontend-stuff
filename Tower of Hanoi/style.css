@@ -1,0 +1,167 @@
+:root {
+    --light-pink: hsl(295, 59%, 86%);
+    --dark-pink: hsl(295, 59%, 20%);
+}
+
+html, body {
+    margin: 0;
+    top: 0;
+    padding: 0;
+    background: var(--light-pink);
+
+    font-family: "Raleway", sans-serif;
+}
+
+/* Content divs */
+.content {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.page-text {
+    text-align: center;
+}
+
+.page--title {
+    font-size: 3rem;
+}
+
+.page--description {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.page-range {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.page-pegs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.stopwatch {
+    margin: 2rem 0;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background: white;
+    border-radius: 1rem;
+    border: var(--dark-pink) 0.15rem solid;
+}
+
+.stopwatch--time {
+    font-size: 3rem;
+    margin: 1.25rem 0;
+}
+
+
+
+/* Pegs */
+.peg {
+    margin: 0.5rem 5rem;
+    position: relative;
+}
+
+.peg-column {
+    height: 15rem;
+    width: 1rem;
+    background: var(--dark-pink);
+
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    
+}
+
+.peg-base {
+    height: 1rem;
+    width: 15rem;
+    background: var(--dark-pink);
+
+    position: relative;
+    bottom: 0;
+
+}
+
+.disk {
+    width: clamp(3rem, calc(var(--order) / var(--disk-count) * 13rem), 13rem);
+    height: 2rem;
+
+    position: absolute;
+    bottom: calc((var(--disk-count) - var(--order)) * 2rem + 1rem);
+    left: 50%;
+    transform: translateX(-50%);
+
+    background: white;
+    border-radius: 1.5rem;
+
+    z-index: 10;
+}
+
+.disk--moved {
+    bottom: calc(var(--peg-height) * 2rem + 1rem);
+}
+
+/* Buttons */
+.button {
+    margin: 1rem;
+    padding: 0.5rem 1rem;
+
+    font-size: 1rem;
+    font-family: "Raleway", sans-serif;
+    font-weight: 500;
+
+    border: none;
+    border-radius: 1.5rem;
+    background: white;
+
+    cursor: pointer;
+    position: relative;
+
+    overflow: hidden;
+
+    z-index: 1;
+    transition: color 500ms ease-in-out;
+    
+    
+}
+
+
+.button--swipe::before {
+    content: "";
+
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    background: var(--dark-pink);
+    z-index: -1;
+
+    transform: scaleX(0%);
+    transform-origin: left;
+    transition: transform 500ms ease-in-out;
+}
+
+.button--swipe:hover {
+    color: white;
+}
+
+.button--swipe:hover::before {
+    transform: scaleX(100%);
+}
+
+
+#disk-slider {
+    margin: 0.5rem 1rem 0 1rem;
+}

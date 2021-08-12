@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    
+    <title>Tower of Hanoi</title>
+</head>
+<body>
+
+    <div class="content">
+        <h1 class="page-text page--title">Tower of Hanoi</h1>
+
+        <p class="page-text page--description">Do you have what it takes to solve this puzzle?</p>
+    
+        <div class="page-range">
+            <div class="disk-range">
+                <label for="disk" id="disk-label">Number of disks: 3</label>
+                <input type="range" name="disk" id="disk-slider" min="3" max="7" step="1" value="3">
+            </div>
+            
+            <button type="submit" class="button button--swipe" id="disk-count">Generate Game</button>
+        </div>
+
+        <div class="page-pegs">
+            <div class="peg">
+                <div class="peg-column"></div>
+                <div class="peg-base"></div>
+
+                <!-- <div class="disk" style="--order: 1; --disk-count: 4" draggable="true"></div>
+                <div class="disk" style="--order: 2; --disk-count: 4" draggable="false"></div>
+                <div class="disk" style="--order: 3; --disk-count: 4" draggable="false"></div>
+                <div class="disk" style="--order: 4; --disk-count: 4" draggable="false"></div> -->
+                
+
+            </div>
+            <div class="peg">
+                <div class="peg-column"></div>
+                <div class="peg-base"></div>
+            </div>
+            <div class="peg">
+                <div class="peg-column"></div>
+                <div class="peg-base"></div>
+            </div>
+        </div>
+
+        <div class="stopwatch">
+            <h6 class="stopwatch--time">00:00.00</h6>
+            <p class="page--description" id="time-solving-disks">The fastest time you have done solving 3 disks is 00:00.00</p>
+        </div>
+        
+    </div>
+    
+</body>
+</html>
