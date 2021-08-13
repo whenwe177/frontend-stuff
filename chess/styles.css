@@ -1,0 +1,143 @@
+/* Root styles */
+html, body {
+    margin: 0;
+    top: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dark-brown: hsl(32, 100%, 18%);
+    --light-brown: hsl(32, 100%, 36%);
+
+    --player-one: black;
+    --player-two: white;
+
+    --dark-div-colour: hsl(217, 0%, 35%);
+
+    font-family: "Roboto Condensed", sans-serif;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Webpage */
+.chess-inactive {
+    background: var(--dark-div-colour);
+    border-radius: 1rem;
+
+    margin: 1.5rem 0;
+    padding: 0.5rem;
+
+    min-height: 150px;
+    width: 25%;
+
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+}
+
+.chess-inactive i {
+    margin: 0.5rem;
+}
+
+/* Chessboard */
+.chessboard {
+    width: clamp(300px, 35vw, 400px);
+    height: clamp(300px, 35vw, 400px);
+    background: black;
+
+    padding: 1rem;
+    border-radius: 1rem;
+
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-auto-rows: 1fr;
+    gap: 0;
+}
+
+.chessboard--block {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: var(--board-bg);
+}
+
+.chessboard--block__highlighted {
+    background: var(--board-bg) linear-gradient(hsla(184, 100%, 35%, 0.5), hsla(184, 100%, 35%, 0.5));
+}
+
+.chessboard--block__top::before {
+    content: attr(data-col);
+    
+    position: absolute;
+    top: -30%;
+    left: 50%;
+    transform: translate(-50%);
+
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.75rem;
+}
+
+.chessboard--block__bottom::before {
+    content: attr(data-col);
+    
+    position: absolute;
+    bottom: -30%;
+    left: 50%;
+    transform: translate(-50%);
+    
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.75rem;
+}
+
+.chessboard--block__left::after {
+    content: attr(data-row);
+    
+    position: absolute;
+    top: 50%;
+    left: -20%;
+    transform: translateY(-50%);
+
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.75rem;
+}
+
+.chessboard--block__right::after {
+    content: attr(data-row);
+    
+    position: absolute;
+    top: 50%;
+    right: -20%;
+    transform: translateY(-50%);
+
+    color: white;
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    font-size: 0.75rem;
+}
+
+.chesspiece {
+    font-size: 2rem;
+}
+
+[data-player="one"] {
+    color: var(--player-one);
+}
+
+[data-player="two"] {
+    color: var(--player-two);
+}
+

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed&family=Roboto:wght@100;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="chess.js" defer></script>
+    <script src="index.js" defer></script>
+
+    <title>Chess</title>
+</head>
+<body>
+    
+    <div class="content">
+
+        <section class="chess-inactive" id="inactive-player-one">
+
+        </section>
+
+        <section class="chessboard">
+            <div class="chessboard--block chessboard--block__top  chessboard--block__left" data-row="8" data-col="a" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-rook chesspiece" data-piece="rook" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="b" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-knight chesspiece" data-piece="knight" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="c" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-bishop chesspiece" data-piece="bishop" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="d" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-queen chesspiece" data-piece="queen" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="e" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-king chesspiece" data-piece="king" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="f" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-bishop chesspiece" data-piece="bishop" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top" data-row="8" data-col="g" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-knight chesspiece" data-piece="knight" data-player="one" draggable="true"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__top chessboard--block__right" data-row="8" data-col="h" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-rook chesspiece" data-piece="rook" data-player="one" draggable="true"></i>
+            </div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="7" data-col="a" style="--board-bg: var(--dark-brown)"> 
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="b" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="c" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="d" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="e" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="f" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block" data-row="7" data-col="g" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__right" data-row="7" data-col="h" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece" draggable="true" data-piece="pawn" data-player="one"></i>
+            </div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="6" data-col="a" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="b" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="c" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="d" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="e" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="f" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="6" data-col="g" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block chessboard--block__right" data-row="6" data-col="h" style="--board-bg: var(--dark-brown)"></div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="5" data-col="a" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="b" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="c" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="d" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="e" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="f" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="5" data-col="g" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block chessboard--block__right" data-row="5" data-col="h" style="--board-bg: var(--light-brown)"></div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="4" data-col="a" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="b" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="c" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="d" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="e" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="f" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="4" data-col="g" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block chessboard--block__right" data-row="4" data-col="h" style="--board-bg: var(--dark-brown)"></div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="3" data-col="a" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="3" data-col="b" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="3" data-col="c" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="3" data-col="d" style="--board-bg: var(--light-brown)"></div>
+            <div class="chessboard--block" data-row="3" data-col="e" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block" data-row="3" data-col="f" style="--board-bg: var(--light-brown)"></i></div>
+            <div class="chessboard--block" data-row="3" data-col="g" style="--board-bg: var(--dark-brown)"></div>
+            <div class="chessboard--block chessboard--block__right" data-row="3" data-col="h" style="--board-bg: var(--light-brown)"></div>
+
+            <div class="chessboard--block chessboard--block__left" data-row="2" data-col="a" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="b" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="c" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="d" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="e" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="f" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block" data-row="2" data-col="g" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__right" data-row="2" data-col="h" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-pawn chesspiece player-two" data-piece="pawn" draggable="true" data-player="two"></i>
+            </div>
+
+            <div class="chessboard--block chessboard--block__bottom chessboard--block__left" data-row="1" data-col="a" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-rook chesspiece player-two" data-piece="rook" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="b" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-knight chesspiece player-two" data-piece="knight" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="c" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-bishop chesspiece player-two" data-piece="bishop" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="d" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-queen chesspiece player-two" data-piece="queen" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="e" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-king chesspiece player-two" data-piece="king" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="f" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-bishop chesspiece player-two" data-piece="bishop" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom" data-row="1" data-col="g" style="--board-bg: var(--dark-brown)">
+                <i class="fas fa-chess-knight chesspiece player-two" data-piece="knight" draggable="true" data-player="two"></i>
+            </div>
+            <div class="chessboard--block chessboard--block__bottom chessboard--block__right" data-row="1" data-col="h" style="--board-bg: var(--light-brown)">
+                <i class="fas fa-chess-rook chesspiece player-two" data-piece="rook" draggable="true" data-player="two"></i>
+            </div>
+        </section>
+
+        <section class="chess-inactive" id="inactive-player-two">
+            
+        </section>
+
+    </div>
+
+    
+</body>
+</html>
