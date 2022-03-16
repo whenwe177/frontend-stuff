@@ -6,6 +6,7 @@ class ChessPiece {
         
         this.currentGridObject = currentGridObject;
         this.currentGrid = null;
+        this.originalGrid = null;
         
         this.player = player;
         this.chessGrid = chessGrid;
@@ -69,9 +70,9 @@ class ChessPiece {
     }
 
     pawnRange(movableGrids, gridRow, gridCol) {
-        const movableSlot = (this.player === "one") ? this.chessGrid[gridRow + 1][gridCol] : this.chessGrid[gridRow - 1][gridCol];
+        const movableSlot = (this.player === "one") ? this.chessGrid[gridRow + 1]?.[gridCol] : this.chessGrid[gridRow - 1]?.[gridCol];
 
-        if (movableSlot.occupier === undefined) {
+        if ((movableSlot !== undefined) && (movableSlot.occupier === undefined)) {
             movableGrids.push(movableSlot);
         }
 
@@ -82,13 +83,13 @@ class ChessPiece {
             }
         }
 
-        const diagonalLeft = (this.player === "one") ? this.chessGrid[gridRow + 1][gridCol + 1] : this.chessGrid[gridRow - 1][gridCol - 1];
+        const diagonalLeft = (this.player === "one") ? this.chessGrid[gridRow + 1]?.[gridCol + 1] : this.chessGrid[gridRow - 1]?.[gridCol - 1];
         const diagonalLeftOccupier = diagonalLeft?.occupier?.player;    
         if ((diagonalLeftOccupier !== undefined) && (diagonalLeftOccupier !== this.player)) {
             movableGrids.push(diagonalLeft);
         }
         
-        const diagonalRight = (this.player === "one") ? this.chessGrid[gridRow + 1][gridCol - 1] : this.chessGrid[gridRow - 1][gridCol + 1];
+        const diagonalRight = (this.player === "one") ? this.chessGrid[gridRow + 1]?.[gridCol - 1] : this.chessGrid[gridRow - 1]?.[gridCol + 1];
         const diagonalRightOccupier = diagonalRight?.occupier?.player;
         if ((diagonalRightOccupier !== undefined) && (diagonalRightOccupier !== this.player)) {
             movableGrids.push(diagonalRight);
@@ -108,9 +109,9 @@ class ChessPiece {
 
             for (let i = 0; i < canEatPawnPossibleGrids.length; i++) {
                 const possibleGrid = canEatPawnPossibleGrids[i];
-                const gridOccupierType = possibleGrid.occupier?.type;
-                const gridOccupierPlayer = possibleGrid.occupier?.player ?? this.player;
-                const gridOccupierMoves = possibleGrid.occupier?.moves ?? 0;
+                const gridOccupierType = possibleGrid?.occupier?.type;
+                const gridOccupierPlayer = possibleGrid?.occupier?.player ?? this.player;
+                const gridOccupierMoves = possibleGrid?.occupier?.moves ?? 0;
 
                 if ((gridOccupierType === "pawn") && (gridOccupierPlayer !== this.player) && (gridOccupierMoves === 1)) {
                     movableGrids.push(pushedGrids[i]);
@@ -305,6 +306,10 @@ class ChessPiece {
             }
 
         }
+
+        if (this)
+        const castleLeftSideGrid = this.chessGrid[gridRow][gridCol]
+
     }
 
     knightRange(movableGrids, gridRow, gridCol) {
@@ -400,7 +405,7 @@ class ChessGrid {
     const chessPieceObjects = Array.from(chessPieces).map(
         (chesspiece) =>  {
             const dataset = chesspiece.dataset;
-            return new ChessPiece(dataset.piece, dataset.player, true, null, null, chesspiece);
+            return new ChessPiece(dataset.piece, dataset.player, true, null, null, chesspiece, null);
         }
     );
 
@@ -413,6 +418,7 @@ class ChessGrid {
             chesspieceObj.chessGrid = chessGridObjects;
             chesspieceObj.currentGridObject = getGridFromHTMLElement(chesspieceObj.element.parentNode, chessGridObjects);
             chesspieceObj.currentGrid = chesspieceObj.element.parentNode;
+            chesspieceObj.originalGrid = chesspieceObj.currentGridObject;
 
             if (chesspieceObj.type === "king") {
                 kingPiecesObjects.push(chesspieceObj);
@@ -446,11 +452,16 @@ class ChessGrid {
     let selectedPiece = null;
     let selectedPieceObject = null;
     let highlightedGrid = null;
+    let upgradedPieceObject = null;
     let currentPlayer = "two";
     let gameInCheck = {
         inCheck: false,
         beingChecked: null,
         checker: null
+    };
+    let gameInCheckMate = {
+        inCheckMate: false,
+        checkmater: null
     };
     let eventListeningPieces = [];
 
@@ -472,7 +483,7 @@ class ChessGrid {
 
     //Even Listening Functions
     function showMovableGrids(event) {
-        
+        //Toggle the highlight of already highlighted grids
         if (highlightedGrid !== null) {
             highlightedGrid.forEach(
                 gridObjects => {
@@ -486,7 +497,7 @@ class ChessGrid {
             );
         }
 
-        
+        //If no piece has been selected yet, cancel action
         if (selectedPiece === event.currentTarget) {
             
             highlightedGrid = null;
@@ -498,78 +509,63 @@ class ChessGrid {
         
         selectedPiece = event.currentTarget;
         selectedPieceObject = getObjectFromHTMLElement(selectedPiece, chessPieces, chessPieceObjects);
+        console.log(selectedPieceObject);
         
         highlightedGrid = selectedPieceObject.moveRange();
 
-        if (selectedPieceObject.type === "king") {
-            const possibleCheckers = playerPiecesObjectMap[(currentPlayer === "one") ? "two" : "one"];
-            for (let checkers of possibleCheckers) {
-                const range = checkers.moveRange();
-                for (let i = 0; i < highlightedGrid.length; i++) {
-                    const gridOfKingRange = highlightedGrid[i];
-                    for (let grid of range) {
-                        if (gridOfKingRange === grid) {
-                            highlightedGrid[i] = undefined;
-                        }
-                    }
-                }
-            }
-        }
 
-        if (selectedPieceObject.type !== "king") {
-            const savedCurrentPlayer = currentPlayer;
-            currentPlayer = (currentPlayer === "one") ? "two" : "one";
-            const possibleCheckers = playerPiecesObjectMap[currentPlayer];
-            for (let checkers of possibleCheckers) {
-                filterHighlightedGridsCheck(highlightedGrid, checkers, selectedPieceObject);
-            }
-            currentPlayer = savedCurrentPlayer;
+        //Filter move range of chesspiece to prevent check
+        const savedCurrentPlayer = currentPlayer;
+        currentPlayer = (currentPlayer === "one") ? "two" : "one";
+        const possibleCheckers = playerPiecesObjectMap[currentPlayer];
+        for (let checkers of possibleCheckers) {
+            filterHighlightedGridsCheck(highlightedGrid, checkers, selectedPieceObject);
         }
+        currentPlayer = savedCurrentPlayer;
         
         
-        if (gameInCheck.inCheck) {
-            const {checker} = gameInCheck;
-            const checkerRange = checker.moveRange();
+        // if (gameInCheck.inCheck) {
+        //     const {checker} = gameInCheck;
+        //     const checkerRange = checker.moveRange();
             
-            const savedCurrentPlayer = currentPlayer;
-            currentPlayer = (currentPlayer === "one") ? "two" : "one";
+        //     const savedCurrentPlayer = currentPlayer;
+        //     currentPlayer = (currentPlayer === "one") ? "two" : "one";
             
-            const checkedKing = kingPiecesObjects[(currentPlayer === "one") ? 0 : 1];
-            if (selectedPieceObject.type === "king") {
-                for (let i = 0; i < highlightedGrid.length; i++) {
-                    const grid = highlightedGrid[i];
-                    console.warn(grid)
-                    if (grid === undefined) {
-                        continue;
-                    }
+        //     const checkedKing = kingPiecesObjects[(currentPlayer === "one") ? 0 : 1];
+        //     if (selectedPieceObject.type === "king") {
+        //         for (let i = 0; i < highlightedGrid.length; i++) {
+        //             const grid = highlightedGrid[i];
+        //             if (grid === undefined) {
+        //                 continue;
+        //             }
                     
-                    if ((checkerRange.includes(grid))) {
-                        highlightedGrid[i] = undefined;
-                        continue;
-                    }
+        //             if ((checkerRange.includes(grid))) {
+        //                 highlightedGrid[i] = undefined;
+        //                 continue;
+        //             }
                     
-                    const initialOccupier = grid?.occupier;
-                    grid.occupier = selectedPieceObject;
-                    selectedPieceObject.currentGridObject.occupier = undefined;
+        //             const initialOccupier = grid?.occupier;
+        //             grid.occupier = selectedPieceObject;
+        //             selectedPieceObject.currentGridObject.occupier = undefined;
                     
-                    const inHypotheticalCheck = isInCheck();
+        //             const inHypotheticalCheck = isInCheck();
                     
-                    if (inHypotheticalCheck.inCheck) {
-                        highlightedGrid[i] = undefined;
-                    }
+        //             if (inHypotheticalCheck.inCheck) {
+        //                 highlightedGrid[i] = undefined;
+        //             }
 
-                    grid.occupier = initialOccupier;
-                    selectedPieceObject.currentGridObject.occupier = selectedPieceObject;
-                }
+        //             grid.occupier = initialOccupier;
+        //             selectedPieceObject.currentGridObject.occupier = selectedPieceObject;
+        //         }
                 
                 
-            }
-            if (selectedPieceObject.type !== "king") {
-                filterHighlightedGridsCheck(highlightedGrid, checker, selectedPieceObject);
-            }
+        //     }
+        //     if (selectedPieceObject.type !== "king") {
+        //         filterHighlightedGridsCheck(highlightedGrid, checker, selectedPieceObject);
+        //     }
             
-            currentPlayer = savedCurrentPlayer;
-        }
+        //     currentPlayer = savedCurrentPlayer;
+        // }
         
         
 
@@ -593,6 +589,7 @@ class ChessGrid {
        
         const selectedGrid = event.currentTarget;
         const selectedGridObject = getGridFromHTMLElement(selectedGrid, chessGridObjects);
+        const initialGridOccupier = selectedGridObject.occupier;
         
         highlightedGrid.forEach(
             gridObjects => {
@@ -614,9 +611,10 @@ class ChessGrid {
 
         selectedGridObject.moveToGrid(selectedPieceObject);
         const canEatFirstMovePawnRow = (this.player === "one") ? 5 : 2;
+        const canPromoteRow = (this.player === "one") ? 7 : 0;
         const {gridRow, gridCol} = selectedGridObject.getRowAndColIndex();
 
-        if ((selectedPieceObject.type === "pawn") && (gridRow === canEatFirstMovePawnRow)) {
+        if ((selectedPieceObject.type === "pawn") && (gridRow === canEatFirstMovePawnRow) && (initialGridOccupier === undefined)) {
 
             const gridWhosePawnCanBeEaten = chessGridObjects[(selectedPieceObject.player === "one") ? (gridRow - 1) : (gridRow + 1)][gridCol];
             const gridPawnOccupierType = gridWhosePawnCanBeEaten.occupier?.type;
@@ -636,8 +634,15 @@ class ChessGrid {
                 
             }
         }
+
+       
+        if ((selectedPieceObject.type === "pawn") && (gridRow === canPromoteRow)) {
+            upgradedPieceObject = selectedPieceObject;
+            setupPromotion(currentPlayer);
+        }
         
         gameInCheck = isInCheck();
+        gameInCheckMate = isInCheckMate();
 
         eventListeningPieces = [];
         playerPiecesMap[currentPlayer].forEach(
@@ -646,6 +651,12 @@ class ChessGrid {
             }
         )
 
+        if (gameInCheckMate.inCheckMate) {
+            console.log("checkmate");
+            console.log(`Player ${currentPlayer} won`)
+        }
+        
+        
         currentPlayer = (currentPlayer === "one") ? "two" : "one";
 
         playerPiecesMap[currentPlayer].forEach(
@@ -663,6 +674,23 @@ class ChessGrid {
             setupCheckEventListeners(gameInCheck);
             return;
         }
+    }
+
+    function promotePawn(event) {
+        const buttonIcon = event.currentTarget;
+        const buttonIconType = buttonIcon.dataset.piece;
+        const promotePopup = document.querySelector(".chess-upgrade");
+        const overlay = document.querySelector(".overlay");
+
+        upgradedPieceObject.element.dataset.piece = buttonIconType;
+        upgradedPieceObject.element.className = `fas fa-chess-${buttonIconType} chesspiece player-${currentPlayer}`;
+
+        upgradedPieceObject.type = buttonIconType;
+        
+        upgradedPieceObject = null;
+        overlay.classList.toggle("active");
+        promotePopup.style.setProperty("--scale","0");
+
     }
 
     //Helper Functions
@@ -730,13 +758,13 @@ class ChessGrid {
             for (let grid of pieceRange) {
                 const occupiedType = grid.occupier?.type;
                 if (occupiedType === "king") {
-                    console.log(chessGridObjects[6][3])
+                    // console.log(chessGridObjects[6][3])
                     // console.error("Current grid")
                     // console.log(piece.currentGridObject)
                     // console.warn(pieceRange)
                     // console.log(grid);
-                    console.warn(piece);
-                    console.log(piece.currentGridObject);
+                    // console.warn(piece);
+                    // console.log(piece.currentGridObject);
                     return {
                         inCheck: true,
                         beingChecked: (currentPlayer === "one") ? "two" : "one",
@@ -749,6 +777,32 @@ class ChessGrid {
             inCheck: false,
             beingChecked: null,
             checker: null
+        }
+    }
+    
+    function isInCheckMate() {
+        const otherPlayer = (currentPlayer === "one") ? "two" : "one";
+        for (let piece of playerPiecesObjectMap[otherPlayer]) {
+            const pieceRange = piece.moveRange();
+            let counter = 0;
+            
+            for (let grid of pieceRange) {
+                if (grid === undefined) {
+                    counter++;
+                }
+            }        
+
+            if (counter !== pieceRange.length) {
+                return {
+                    inCheckMate: false,
+                    checkmater: null
+                }
+            }
+        }
+
+        return {
+            inCheckMate: true,
+            checkmater: currentPlayer
         }
     }
 
@@ -788,9 +842,19 @@ class ChessGrid {
             }
         }
     }
+    
 
     function filterHighlightedGridsCheck(highlightedGrid, checker, selectedPieceObject) {
+        if (selectedPieceObject.type === "king") {
+            console.error(selectedPieceObject);
+            console.log(highlightedGrid.slice())
+        }
         for (let i = 0; i < highlightedGrid.length; i++) {
+           
+            if (selectedPieceObject.type === "king") {
+                console.log(grid)
+            }
+
             grid = highlightedGrid[i];
             const initialGridOccupier = grid?.occupier;
 
@@ -807,6 +871,9 @@ class ChessGrid {
             }
 
             const inSimulatedCheck = isInCheck();
+            if (selectedPieceObject.type === "king") {
+                console.warn(inSimulatedCheck);
+            }
             if (inSimulatedCheck.inCheck) {
                 highlightedGrid[i] = undefined;
             }
@@ -822,5 +889,23 @@ class ChessGrid {
 
         return highlightedGrid;
     }
+
+    function setupPromotion(currentPlayer) {
+        const promotionPopup = document.querySelector(".chess-upgrade");
+        const overlay = document.querySelector(".overlay");
+
+        promotionPopup.style.setProperty("--scale","100%");
+        overlay.classList.toggle("active");
+
+        const upgradeChoiceButtons = document.querySelectorAll(".upgrade--button");
+        upgradeChoiceButtons.forEach(
+            (button) => {
+                button.dataset.player = currentPlayer;
+                button.style.background = (currentPlayer === "one") ? "white" : "black";
+                button.addEventListener("click", promotePawn);
+            }
+        )
+    }
+
     
 })();

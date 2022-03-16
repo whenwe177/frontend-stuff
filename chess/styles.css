@@ -141,3 +141,82 @@ html, body {
     color: var(--player-two);
 }
 
+/* Promotion popup */
+.chess-upgrade {
+    position: fixed;
+    --scale: 0;
+
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(var(--scale));
+    transform-origin: left;
+    transition: transform 300ms ease-in;
+    
+
+    background: white;
+    border: var(--dark-div-colour) 2px solid;
+    border-radius: 0.5rem;
+
+    padding: 1rem 3rem;
+    box-shadow: inset 0 -5px 1rem hsla(217, 0%, 35%, 0.7);
+
+    z-index: 5;
+
+}
+
+.chess-upgrade--text {
+
+    font-size: 1.25rem;
+    text-align: center;
+
+}
+
+.chess-upgrade--buttons {
+    display: flex;
+
+    margin: 1rem 0;
+    
+    justify-content: center;
+    align-items: center;
+
+    height: 2rem;    
+}
+
+.upgrade--button {
+    margin: 0 1rem;
+    padding: 0.5rem;
+    font-size: 1.75rem;
+
+    min-width: 3rem;
+    min-height: 3rem;
+
+    border-radius: 50%;
+    border: hsl(127, 4%, 37%) 2px solid;
+
+    transition: padding 300ms ease;
+
+    cursor: pointer;
+
+}
+
+.upgrade--button:hover,
+.upgrade--button:focus {
+    padding: 1.5rem;
+}
+
+.overlay {
+    position: fixed;
+
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    pointer-events: none;
+
+}
+
+.overlay.active {
+    background: hsla(127, 4%, 37%, 0.5);
+}
+
